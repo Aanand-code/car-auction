@@ -1,9 +1,9 @@
 import { useRef, useEffect, useState } from 'react';
 import axios from '../api/axios.js';
+import carLogoBlack from '../assets/high-speed.png';
+import carLogoWhite from '../assets/Pi7_high-speed.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { GiTrafficLightsRed } from 'react-icons/gi';
-import carLogoWhite from '../assets/Pi7_high-speed.png';
-import carLogoBlack from '../assets/high-speed.png';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;

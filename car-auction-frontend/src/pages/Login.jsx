@@ -1,11 +1,10 @@
-import React from 'react';
+import carLogoWhite from '../assets/Pi7_high-speed.png';
+import carLogoBlack from '../assets/high-speed.png';
 import { useRef, useEffect, useState } from 'react';
 import useAuthStore from '../hooks/useAuthStore';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
 import { GiTrafficLightsRed } from 'react-icons/gi';
-import carLogoWhite from '../assets/Pi7_high-speed.png';
-import carLogoBlack from '../assets/high-speed.png';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 

@@ -4,14 +4,14 @@ import { FaSquareInstagram } from 'react-icons/fa6';
 import { FaPinterestSquare } from 'react-icons/fa';
 import { FaFacebookSquare } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import carLogo from '../assets/Pi7_high-speed.png';
+import carLogoWhite from '../assets/Pi7_high-speed.png';
 
 const Footer = () => {
   return (
     <div className="p-5 px-5 flex flex-col w-full justify-between pb-10 gap-5 bg-stone-700 dark:bg-stone-900 text-stone-100">
       <div className="flex flex-row gap-2 items-center">
         <div className="text-xl font-josefin mt-2">AUCTION</div>
-        <img src={carLogo} alt="Car Auction Logo" className="h-12" />
+        <img src={carLogoWhite} alt="Car Auction Logo" className="h-12" />
       </div>
       <div className="flex flex-col sm:flex-row  w-full justify-between gap">
         <div className="flex flex-row  w-full justify-items-center pb-10 gap-10 sm:gap-20">
