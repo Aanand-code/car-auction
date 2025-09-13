@@ -4,6 +4,8 @@ import useAuthStore from '../hooks/useAuthStore';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
 import { GiTrafficLightsRed } from 'react-icons/gi';
+import carLogoWhite from '../assets/Pi7_high-speed.png';
+import carLogoBlack from '../assets/high-speed.png';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -68,12 +70,12 @@ const Login = () => {
             <span>#Go</span>{' '}
             <span className="w-full">
               <img
-                src="src/assets/Pi7_high-speed.png"
+                src={carLogoWhite}
                 alt="Car Auction Logo"
                 className="h-17 hidden dark:block"
               />
               <img
-                src="src/assets/high-speed.png"
+                src={carLogoBlack}
                 alt="Car Auction Logo"
                 className="h-17 dark:hidden block"
               />
