@@ -1,0 +1,33 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Node
+node_modules
+
+# Frontend
+/car-auction-frontend/node_modules
+/car-auction-frontend/dist
+/car-auction-frontend/dist-ssr
+/car-auction-frontend/*.local
+/car-auction-frontend/.env
+
+# Backend
+/car-auction-backend/.env
+/car-auction-backend/node_modules
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

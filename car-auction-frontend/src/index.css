@@ -1,0 +1,25 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+
+}
+
+body {
+  font-family: "Nunito", sans-serif;
+  /* background: #fefffbf5; */
+  @apply bg-white text-black dark:bg-black dark:text-white;
+  /* background: #3fd758; */
+
+}
+
+@theme {
+  --font-josefin: "Josefin Sans", sans-serif;
+  --color-primary: #3fd758;
+  --color-secondary: #017514;
+
+}
