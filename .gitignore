@@ -21,6 +21,13 @@ node_modules
 /car-auction-backend/.env
 /car-auction-backend/node_modules
 
+# Ignore everything in public/temp
+/car-auction-backend/public/temp/*
+
+# But keep the .gitkeep file
+!car-auction-backend/public/temp/.gitkeep
+
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
