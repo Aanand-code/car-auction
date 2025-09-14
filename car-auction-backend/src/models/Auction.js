@@ -41,7 +41,7 @@ const auctionSchema = new Schema(
     status: {
       type: String,
       required: true,
-      enum: [ 'SCHEDULED', 'LIVE', 'ENDED', 'SOLD', 'CANCELLED'],
+      enum: ['SCHEDULED', 'LIVE', 'ENDED', 'SOLD', 'CANCELLED'],
       default: 'SCHEDULED',
     },
     startTime: {
@@ -92,17 +92,17 @@ auctionSchema.pre('save', function (next) {
   if (isNaN(this.year)) {
     return next(new ApiError(400, 'Manufactured year must be a valid number'));
   }
+  next();
+});
 
-  if (this.startTime && isNaN(this.startTime.getTime())) {
-    return next(new ApiError(400, 'Invalid start time date'));
+auctionSchema.methods.validateDateAndTime = function () {
+  if (!this.startTime || isNaN(this.startTime.getTime())) {
+    throw new ApiError(400, 'Invalid start time date');
   }
-  if (this.endTime && isNaN(this.endTime.getTime())) {
-    return next(new ApiError(400, 'Invalid end time date'));
+  if (!this.endTime || isNaN(this.endTime.getTime())) {
+    throw new ApiError(400, 'Invalid end time date');
   }
 
-  if (this.currentPrice < this.startingPrice) {
-    this.currentPrice = this.startingPrice;
-  }
   if (this.startTime >= this.endTime) {
     throw new ApiError(400, 'End time must be after start time.');
   }
@@ -110,15 +110,21 @@ auctionSchema.pre('save', function (next) {
   if (this.startTime <= new Date()) {
     throw new ApiError(400, 'Start time must be in the future.');
   }
-
-  next();
-});
-
+  if (this.currentPrice < this.startingPrice) {
+    this.currentPrice = this.startingPrice;
+  }
+};
 
 auctionSchema.methods.updateStatus = function () {
   const now = new Date();
-  
-}
+  if (now < this.startTime) {
+    this.status = 'SCHEDULED';
+  } else if (now >= this.startTime && now <= this.endTime) {
+    this.status = 'LIVE';
+  } else if (now > this.endTime) {
+    this.status = 'ENDED';
+  }
+};
 
 const Auction = model('Auction', auctionSchema);
 module.exports = Auction;

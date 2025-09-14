@@ -2,7 +2,7 @@ import axios from 'axios';
 import useAuthStore from '../hooks/useAuthStore';
 
 const api = axios.create({
-  baseURL: 'http://localhost:7777/api/v1',
+  baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
 });
 

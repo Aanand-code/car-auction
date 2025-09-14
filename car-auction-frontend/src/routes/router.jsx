@@ -14,6 +14,7 @@ import Logout from '../pages/Logout.jsx';
 import Profile from '../pages/Profile.jsx';
 import Theme from '../pages/Theme.jsx';
 import AuctionInfo from '../pages/AuctionInfo.jsx';
+import PostAuction from '../pages/PostAuction.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -30,6 +31,7 @@ const router = createBrowserRouter(
         <Route index element={<BrowseAuctions />} />
         <Route path="profile" element={<Profile />} />
         <Route path="auction-info" element={<AuctionInfo />} />
+        <Route path="post-auction" element={<PostAuction />} />
       </Route>
 
       {/* Catch all */}

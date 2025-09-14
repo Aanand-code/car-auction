@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import axios from '../api/axios';
 
 const Avatar = () => {
-  const [file, setFile] = useState(null);
+  const [profilePic, setProfilepic] = useState(null);
 
   const handleFileChange = async (e) => {
     const selectedFile = e.target.files[0];
-    setFile(selectedFile);
+    // setFile(selectedFile);
 
     if (!selectedFile) return;
 
@@ -14,11 +14,8 @@ const Avatar = () => {
     formData.append('avatar', selectedFile);
 
     try {
-      const response = await axios.post('/user/avatar', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await axios.post('/user/avatar', formData);
+      setProfilepic(response.data.avatar);
       console.log('Avatar uploaded', response.data);
     } catch (error) {
       console.error('On avatar uploading', error);
@@ -43,7 +40,15 @@ const Avatar = () => {
             htmlFor="file"
             className="px-4 py-2 bg-white/20 text-white rounded-lg cursor-pointer hover:bg-white/50 backdrop-blur-2xl w-40"
           >
-            <img src="src/assets/305982.png" alt="avatar" className="w-full" />
+            {profilePic ? (
+              <img src={profilePic} alt="avatar" className="w-full" />
+            ) : (
+              <img
+                src="src/assets/305982.png"
+                alt="avatar"
+                className="w-full"
+              />
+            )}
           </label>
         </div>
       </div>

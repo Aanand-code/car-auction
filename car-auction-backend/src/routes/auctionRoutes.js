@@ -13,12 +13,7 @@ const {
 router.post(
   '/post-auction',
   verifyJWT,
-  upload.fields([
-    {
-      name: 'carImages',
-      maxCount: 6,
-    },
-  ]),
+  upload.array('carImages', 10),
   postAuction
 );
 

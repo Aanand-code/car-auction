@@ -57,6 +57,12 @@ const Register = () => {
   useEffect(() => {
     setErrMsg('');
   }, [email, password, matchPassword]);
+  useEffect(() => {
+    if (errMsg && errRef.current) {
+      errRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      errRef.current.focus(); // optional, for screen readers
+    }
+  }, [errMsg]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -113,21 +119,20 @@ const Register = () => {
           </p>
         </div>
 
-        <div className="relative flex justify-center">
-          <p
-            ref={errRef}
-            className={
-              errMsg
-                ? 'block border-1 absolute text-nowrap text-red-500 text-lg p-1.5 rounded-lg '
-                : 'hidden'
-            }
-          >
-            <span className="flex items-center gap-1.5">
-              <GiTrafficLightsRed className="w-7 h-7" />
-              {errMsg}
-            </span>
-          </p>
-        </div>
+        {errMsg && (
+          <div className="relative flex justify-center">
+            <p
+              ref={errRef}
+              tabIndex="-1"
+              className="block absolute text-nowrap text-red-500 text-sm p-1.5 rounded-lg"
+            >
+              <span className="flex items-center gap-1.5">
+                <GiTrafficLightsRed className="w-5 h-7" />
+                {errMsg}
+              </span>
+            </p>
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-7 min-w-4/5">
           <div className="flex flex-col gap-3 w-full">

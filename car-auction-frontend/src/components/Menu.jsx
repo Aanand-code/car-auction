@@ -22,6 +22,9 @@ const Menu = ({ onClose }) => {
       <NavLink to="/" onClick={onClose}>
         Browse Auctions
       </NavLink>
+      <NavLink to="/post-auction" onClick={onClose}>
+        Post Auction
+      </NavLink>
       <NavLink to="/profile" onClick={onClose}>
         Profile
       </NavLink>

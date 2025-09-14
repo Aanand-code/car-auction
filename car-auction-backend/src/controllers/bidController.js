@@ -73,4 +73,24 @@ const newBid = asyncHandler(async (req, res) => {
   });
 });
 
-module.exports = { newBid };
+const getBidsOfAnAuction = asyncHandler(async (req, res) => {
+  const { auctionID } = req.query;
+
+  const bids = await Bid.find({ auctionId: auctionID })
+    .populate('bidderId', 'fullname avatar email') // bring bidder info
+    .sort({ createdAt: -1 });
+
+  if (!bids) {
+    throw new ApiError(
+      500,
+      'Something went wrong while finding the bids of auction'
+    );
+  }
+
+  res.status(200).json({
+    message: 'These are all the bids',
+    bids,
+  });
+});
+
+module.exports = { newBid, getBidsOfAnAuction };

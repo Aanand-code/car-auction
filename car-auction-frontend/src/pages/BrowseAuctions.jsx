@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from '../api/axios';
 import SlidePhoto from '../components/SlidePhoto';
 import { useNavigate } from 'react-router-dom';
+import carLogoWhite from '../assets/Pi7_high-speed.png';
+import carLogoBlack from '../assets/high-speed.png';
 
 const BrowseAuctions = () => {
   const navigate = useNavigate();
@@ -32,7 +34,22 @@ const BrowseAuctions = () => {
   };
 
   return (
-    <section className="flex flex-col gap-10 p-4 w-full">
+    <section className="flex flex-col gap-7 p-4 w-full">
+      <p className="text-3xl text-center text-stone-700 flex items-center justify-center gap-1 self-center">
+        <span className="text-nowrap">Browse Auctions</span>{' '}
+        <span className="w-full">
+          <img
+            src={carLogoWhite}
+            alt="Car Auction Logo"
+            className="h-15 hidden dark:block"
+          />
+          <img
+            src={carLogoBlack}
+            alt="Car Auction Logo"
+            className="h-15 dark:hidden block"
+          />
+        </span>
+      </p>
       {auctions.length === 0 ? (
         <div>No auctions available right now.</div>
       ) : (

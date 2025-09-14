@@ -26,6 +26,12 @@ const Login = () => {
   useEffect(() => {
     userRef.current.focus();
   }, []);
+  useEffect(() => {
+    if (errMsg && errRef.current) {
+      errRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      errRef.current.focus(); // optional, for screen readers
+    }
+  }, [errMsg]);
 
   useEffect(() => {
     const result = EMAIL_REGEX.test(email);
@@ -55,9 +61,9 @@ const Login = () => {
 
       navigate('/', { replace: true });
     } catch (error) {
-      console.error(error.response.data.message);
+      console.error(error);
 
-      setErrMsg(`${error.response.data.message}`);
+      setErrMsg(error.response?.data?.message || 'Login Failed');
     }
   };
 
@@ -88,21 +94,21 @@ const Login = () => {
             {'}'}
           </p>
         </div>
-        <div className="relative flex justify-center">
-          <p
-            ref={errRef}
-            className={
-              errMsg
-                ? 'block border-1 absolute text-nowrap text-red-500 text-lg p-1.5 rounded-lg '
-                : 'hidden'
-            }
-          >
-            <span className="flex items-center gap-1.5">
-              <GiTrafficLightsRed className="w-7 h-7" />
-              {errMsg}
-            </span>
-          </p>
-        </div>
+
+        {errMsg && (
+          <div className="relative flex justify-center">
+            <p
+              ref={errRef}
+              tabIndex="-1"
+              className="block absolute text-nowrap text-red-500 text-sm p-1.5 rounded-lg"
+            >
+              <span className="flex items-center gap-1.5">
+                <GiTrafficLightsRed className="w-5 h-7" />
+                {errMsg}
+              </span>
+            </p>
+          </div>
+        )}
         <form
           onSubmit={handleSubmit}
           className="flex flex-col gap-10 min-w-4/5"

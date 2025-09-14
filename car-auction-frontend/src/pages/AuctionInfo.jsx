@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
 import SlidePhoto from '../components/SlidePhoto';
 import socket from '../api/socket';
+import carLogoWhite from '../assets/Pi7_high-speed.png';
+import carLogoBlack from '../assets/high-speed.png';
 
 const AuctionInfo = () => {
   const location = useLocation();
@@ -10,6 +12,7 @@ const AuctionInfo = () => {
 
   const [auction, setAuction] = useState({});
   const [auctioneer, setAuctioneer] = useState({});
+  const [bids, setBids] = useState([]);
 
   const auctionID = location.state?.auctionID;
 
@@ -30,6 +33,7 @@ const AuctionInfo = () => {
     }
 
     fetchAuctionDetails();
+    getAllBids();
   }, [auctionID, navigate]);
 
   const fetchAuctionDetails = async () => {
@@ -49,10 +53,41 @@ const AuctionInfo = () => {
     }
   };
 
+  const getAllBids = async () => {
+    try {
+      const response = await axios.get('/bid/get-bids', {
+        params: {
+          auctionID,
+        },
+      });
+
+      console.log(response.data.bids);
+
+      setBids(response.data.bids);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // console.log(auction);
 
   return (
     <section className="w-full flex flex-col">
+      <p className="text-3xl text-center text-stone-700 flex items-center justify-center gap-2 self-center">
+        <span className="text-nowrap">Auction Details</span>{' '}
+        <span className="w-full">
+          <img
+            src={carLogoWhite}
+            alt="Car Auction Logo"
+            className="h-15 hidden dark:block"
+          />
+          <img
+            src={carLogoBlack}
+            alt="Car Auction Logo"
+            className="h-15 dark:hidden block"
+          />
+        </span>
+      </p>
       <div
         className="flex flex-col w-full justify-center gap-5 pb-7"
         data-auctionid={auction._id}
@@ -125,8 +160,17 @@ const AuctionInfo = () => {
         </div>
       </div>
 
-      <div className="w-full px-5">
-        <div>Bids</div>
+      <p className="p-2 bg-blue-500 rounded-lg text-center text-lg font-bold">
+        Bids
+      </p>
+      <div className="border-t border-t-red-950 w-full px-5">
+        {bids.length === 0 ? (
+          <div className="text-lg font-bold">
+            There is no bid available right now.
+          </div>
+        ) : (
+          bids.map((bid) => <div key={bid._id}>{bid.amount}</div>)
+        )}
       </div>
     </section>
   );

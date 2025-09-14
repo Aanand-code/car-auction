@@ -14,7 +14,6 @@ const postAuction = asyncHandler(async (req, res) => {
   //7 create and save auction object
   //8 send this to other users via websocket also
   //9 send response back to user
-  const io = req.app.get('io');
 
   const {
     title,
@@ -22,10 +21,12 @@ const postAuction = asyncHandler(async (req, res) => {
     category,
     year,
     startingPrice,
-    status,
     startTime,
     endTime,
   } = req.body;
+
+  // console.log(req.body);
+  // console.log(req.files);
 
   //   console.log(
   //     `${title} ${description} ${category} ${year} ${startingPrice} ${status} ${startTime}`
@@ -37,17 +38,17 @@ const postAuction = asyncHandler(async (req, res) => {
     !category ||
     !year ||
     !startingPrice ||
-    !status ||
+    !startTime ||
     !endTime
   ) {
     throw new ApiError(400, 'All important fields are required.');
   }
 
-  const currentPrice = startingPrice;
-
   const sellerId = req.user._id;
 
-  const auctioneerUser = await User.findById(sellerId).select('fullname');
+  const auctioneerUser = await User.findById(sellerId).select(
+    'fullname avatar'
+  );
 
   if (!auctioneerUser) {
     throw new ApiError(409, 'Unauthorized user or invalid access token');
@@ -56,8 +57,8 @@ const postAuction = asyncHandler(async (req, res) => {
 
   //   console.log(req.files?.carImages[0]);
   //   const carImages = req.files?.carImages;
-  const carImagesPaths = req.files?.carImages.map((carImage) => carImage.path);
-  if (carImagesPaths.length === 0) {
+  const carImagesPaths = req.files.map((carImage) => carImage.path);
+  if (!carImagesPaths || carImagesPaths.length === 0) {
     throw new ApiError(400, 'Pictures of car are required');
   }
 
@@ -72,7 +73,7 @@ const postAuction = asyncHandler(async (req, res) => {
     throw new ApiError(400, 'Some pictures of car are required');
   }
 
-  const auction = await Auction.create({
+  const auction = new Auction({
     sellerId,
     title,
     carImages,
@@ -80,11 +81,15 @@ const postAuction = asyncHandler(async (req, res) => {
     category,
     year,
     startingPrice,
-    currentPrice,
-    status,
+    currentPrice: startingPrice,
     startTime,
     endTime,
   });
+
+  auction.validateDateAndTime();
+  auction.updateStatus();
+
+  await auction.save();
 
   const newAuction = await Auction.findById(auction._id);
 
@@ -98,8 +103,6 @@ const postAuction = asyncHandler(async (req, res) => {
     newAuction,
   };
 
-  io.emit('new_auction', newAuctionEmit);
-
   res.status(201).json({
     message: 'Auction created successfully',
     auctioneerUser,
@@ -108,8 +111,7 @@ const postAuction = asyncHandler(async (req, res) => {
 });
 
 const getAuctions = asyncHandler(async (req, res) => {
-  const allAuctions = await Auction.find();
-  //.sort({ createdAt: -1 });
+  const allAuctions = await Auction.find().sort({ createdAt: -1 });
   // console.log(allAuctions);
 
   if (!allAuctions) {

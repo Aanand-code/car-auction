@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Avatar from '../components/Avatar';
 import useAuthStore from '../hooks/useAuthStore';
 import axios from '../api/axios';
+import carLogoWhite from '../assets/Pi7_high-speed.png';
+import carLogoBlack from '../assets/high-speed.png';
 
 const Profile = () => {
   const { user, updateUser } = useAuthStore();
@@ -49,7 +51,22 @@ const Profile = () => {
     }
   };
   return (
-    <section className="flex justify-center items-center">
+    <section className="flex flex-col gap-7 p-4 w-full self-center">
+      <p className="text-3xl text-center text-stone-700 flex items-center justify-center gap-1 self-center">
+        <span className="text-nowrap">Profile</span>{' '}
+        <span className="w-full">
+          <img
+            src={carLogoWhite}
+            alt="Car Auction Logo"
+            className="h-15 hidden dark:block"
+          />
+          <img
+            src={carLogoBlack}
+            alt="Car Auction Logo"
+            className="h-15 dark:hidden block"
+          />
+        </span>
+      </p>
       <div className="flex flex-col gap-10">
         <div>
           {' '}
