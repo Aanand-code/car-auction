@@ -37,7 +37,7 @@ const VerifyOTP = () => {
   };
 
   return (
-    <section className="flex grow justify-center  h-full w-full py-10">
+    <section className="flex flex-col grow justify-center  h-full w-full py-10">
       <p className="text-3xl text-center text-stone-700 flex items-center justify-center gap-1 self-center">
         <span className="text-nowrap">Email Verification</span>{' '}
         <span className="w-full">

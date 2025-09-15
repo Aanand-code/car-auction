@@ -20,7 +20,7 @@ const generateOTP = (email) => {
   // store secret (not only otp!)
   otpCache.set(email, otp, 600);
 
-  console.log(`OTP for ${email}: ${otp}`);
+  // console.log(`OTP for ${email}: ${otp}`);
   return otp;
 };
 
