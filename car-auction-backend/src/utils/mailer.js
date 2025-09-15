@@ -17,7 +17,7 @@ function createTransporter(port, secure) {
   });
 }
 
-let transporter = createTransporter(587, true); // Start with SSL
+let transporter = createTransporter(587, false); // Start with SSL
 
 async function sendOTPEmail(email, otp) {
   const mailOptions = {
@@ -41,7 +41,7 @@ async function sendOTPEmail(email, otp) {
 
     // Retry with port 465 if 587 fails
     console.log('🔄 Retrying with port 465...');
-    transporter = createTransporter(465, false);
+    transporter = createTransporter(465, true);
 
     try {
       await transporter.sendMail(mailOptions);
