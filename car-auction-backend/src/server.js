@@ -19,14 +19,14 @@ const allowedOrigins = process.env.CORS_ORIGINS;
 //Server
 const io = new Server(server, {
   cors: {
-    origin: allowedOrigins, // Match your Express CORS settings
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
     credentials: true,
   },
 });
 const PORT = process.env.PORT || '7777';
 server.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server running http://localhost:${PORT}`);
+  console.log(`Server running on port:${PORT}`);
 });
 
 // Connect to DB
@@ -42,10 +42,11 @@ socketHandler(io);
 //Middlewares
 app.use(
   cors({
-    origin: allowedOrigins, //process.env.CORS_ORIGIN,
+    origin: allowedOrigins,
     credentials: true,
   })
 );
+
 app.use(express.json());
 app.use(cookieParser());
 
