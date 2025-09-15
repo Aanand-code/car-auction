@@ -3,7 +3,7 @@ const nodemailer = require('nodemailer');
 // Create reusable transporter
 function createTransporter(port, secure) {
   return nodemailer.createTransport({
-    host: 'smtp.gmail.com',
+    host: 'smtp-relay.brevo.com',
     port, // 465 (SSL) or 587 (TLS)
     secure, // true for 465, false for 587
     auth: {
@@ -17,7 +17,7 @@ function createTransporter(port, secure) {
   });
 }
 
-let transporter = createTransporter(465, true); // Start with SSL
+let transporter = createTransporter(587, true); // Start with SSL
 
 async function sendOTPEmail(email, otp) {
   const mailOptions = {
@@ -37,11 +37,11 @@ async function sendOTPEmail(email, otp) {
     await transporter.sendMail(mailOptions);
     console.log('✅ OTP email sent to:', email);
   } catch (error) {
-    console.error('❌ Error sending email with port 465:', error.message);
+    console.error('❌ Error sending email with port 587:', error.message);
 
-    // Retry with port 587 if 465 fails
-    console.log('🔄 Retrying with port 587...');
-    transporter = createTransporter(587, false);
+    // Retry with port 465 if 587 fails
+    console.log('🔄 Retrying with port 465...');
+    transporter = createTransporter(465, false);
 
     try {
       await transporter.sendMail(mailOptions);
