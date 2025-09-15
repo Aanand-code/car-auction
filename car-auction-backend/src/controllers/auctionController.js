@@ -166,6 +166,9 @@ const auctionDetails = asyncHandler(async (req, res) => {
     throw new ApiError(400, 'There is no auction available with this id');
   }
 
+  auction.updateStatus();
+  await auction.save();
+
   const auctioneer = await User.findById(auction.sellerId).select(
     'fullname avatar'
   );

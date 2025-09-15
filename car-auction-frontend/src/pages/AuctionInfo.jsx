@@ -13,6 +13,8 @@ const AuctionInfo = () => {
   const [auction, setAuction] = useState({});
   const [auctioneer, setAuctioneer] = useState({});
   const [bids, setBids] = useState([]);
+  const [timer, setTimer] = useState('');
+  const [endTimer, setEndTimer] = useState('');
 
   const auctionID = location.state?.auctionID;
 
@@ -36,6 +38,46 @@ const AuctionInfo = () => {
     getAllBids();
   }, [auctionID, navigate]);
 
+  function formatTime(ms) {
+    if (ms <= 0) return '0d 0h 0m 0s';
+
+    let totalSeconds = Math.floor(ms / 1000);
+    const days = Math.floor(totalSeconds / (3600 * 24));
+    totalSeconds %= 3600 * 24;
+    const hours = Math.floor(totalSeconds / 3600);
+    totalSeconds %= 3600;
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  }
+
+  useEffect(() => {
+    if (!auction.startTime || !auction.endTime) return;
+
+    const start = new Date(auction.startTime).getTime();
+    const end = new Date(auction.endTime).getTime();
+
+    const interval = setInterval(() => {
+      const now = Date.now();
+
+      if (now < start) {
+        // before auction starts
+        setTimer(formatTime(start - now));
+        setEndTimer('');
+      } else if (now >= start && now < end) {
+        // auction is live
+        setTimer('Auction is LIVE');
+        setEndTimer(formatTime(end - now));
+      } else {
+        // auction ended
+        setTimer('Auction Ended');
+        setEndTimer('');
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [auction.startTime, auction.endTime]);
+
   const fetchAuctionDetails = async () => {
     try {
       const response = await axios.get('/auction/auction-details', {
@@ -43,11 +85,12 @@ const AuctionInfo = () => {
           auctionID,
         },
       });
-
+      const now = new Date();
       console.log(response.data.auctionInfo);
       // console.log(response.data.auctioneerInfo);
       setAuction(response.data.auctionInfo);
       setAuctioneer(response.data.auctioneerInfo);
+      setTimer(formatTime(response.data.auctionInfo.startTime - now));
     } catch (error) {
       console.error(error);
     }
@@ -115,6 +158,18 @@ const AuctionInfo = () => {
             <h2 className="text-green-500">{auction.status}</h2>
           </div>
 
+          <div className="flex justify-between px-5 p-1 rounded-lg">
+            <h2>Starts In:</h2>
+            <h2 className="text-green-500">{timer}</h2>
+          </div>
+
+          {endTimer && (
+            <div className="flex justify-between px-5 p-1 rounded-lg">
+              <h2>Ends In:</h2>
+              <h2 className="text-red-500">{endTimer}</h2>
+            </div>
+          )}
+
           <div className="flex justify-between bg-blue-500 px-5 p-1 rounded-lg">
             <h2>Current Price</h2>
             <h2>{auction.currentPrice}</h2>
@@ -125,19 +180,19 @@ const AuctionInfo = () => {
               Raise Bid
             </p>
             <div className="flex flex-row justify-around items-center gap-3 w-full">
-              <div className=" py-1 w-full text-center bg-green-400 rounded-lg">
+              <button className=" py-1 w-full text-center bg-green-400 rounded-lg">
                 25,000
-              </div>
-              <div className=" py-1 w-full text-center bg-green-500 rounded-lg">
+              </button>
+              <button className=" py-1 w-full text-center bg-green-500 rounded-lg">
                 50,000
-              </div>
-              <div className=" py-1 w-full text-center bg-green-600 rounded-lg">
+              </button>
+              <button className=" py-1 w-full text-center bg-green-600 rounded-lg">
                 75,000
-              </div>
+              </button>
             </div>
-            <div className=" py-1 w-full text-center bg-green-700 rounded-lg">
+            <button className=" py-1 w-full text-center bg-green-700 rounded-lg">
               1,00,000
-            </div>
+            </button>
           </div>
 
           <div className="flex flex-col gap-2">
@@ -163,7 +218,7 @@ const AuctionInfo = () => {
       <p className="p-2 bg-blue-500 rounded-lg text-center text-lg font-bold">
         Bids
       </p>
-      <div className="border-t border-t-red-950 w-full px-5">
+      <div className="border-t h-100 flex flex-col justify-center items-center border-t-red-950 w-full px-5">
         {bids.length === 0 ? (
           <div className="text-lg font-bold">
             There is no bid available right now.

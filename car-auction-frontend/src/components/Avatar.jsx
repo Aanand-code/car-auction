@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import axios from '../api/axios';
+import useAuthStore from '../hooks/useAuthStore';
 
 const Avatar = () => {
-  const [profilePic, setProfilepic] = useState(null);
+  const { user, updateUser } = useAuthStore();
+  const [profilePic, setProfilepic] = useState(user.avatar || null);
 
   const handleFileChange = async (e) => {
     const selectedFile = e.target.files[0];
@@ -16,7 +18,10 @@ const Avatar = () => {
     try {
       const response = await axios.post('/user/avatar', formData);
       setProfilepic(response.data.avatar);
-      console.log('Avatar uploaded', response.data);
+      updateUser({
+        avatar: response.data.avatar,
+      });
+      // console.log('Avatar uploaded', response.data);
     } catch (error) {
       console.error('On avatar uploading', error);
     }
