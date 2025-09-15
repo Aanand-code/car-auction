@@ -14,7 +14,7 @@ const socketHandler = require('./handler/socketHandler.js');
 const app = express();
 const server = http.createServer(app);
 
-const allowedOrigins = process.env.CORS_ORIGINS.split(',');
+const allowedOrigins = process.env.CORS_ORIGINS;
 
 //Server
 const io = new Server(server, {
