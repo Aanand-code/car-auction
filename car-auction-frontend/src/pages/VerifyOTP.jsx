@@ -27,7 +27,7 @@ const VerifyOTP = () => {
         { email, otp },
         { headers: { 'Content-Type': 'application/json' } }
       );
-      console.log(response.data);
+      // console.log(response.data);
       setAuth({ email: response.data.user }, response.data.accessToken);
 
       navigate('/', { replace: true });

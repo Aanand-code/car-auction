@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 const userRoutes = require('./routes/userRoutes.js');
 const auctionRoutes = require('./routes/auctionRoutes.js');
 const bidRoutes = require('./routes/bidRoutes.js');
-const { errorHandles } = require('./middleware/errorHandler.js');
+const { errorHandler } = require('./handler/errorHandler.js');
 const socketHandler = require('./handler/socketHandler.js');
 
 const app = express();
@@ -61,4 +61,4 @@ app.use('/api/v1/auction', auctionRoutes);
 app.use('/api/v1/bid', bidRoutes);
 
 // Error handle middleware
-app.use(errorHandles);
+app.use(errorHandler);

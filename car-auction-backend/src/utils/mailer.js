@@ -21,7 +21,7 @@ let transporter = createTransporter(587, false); // Start with SSL
 
 async function sendOTPEmail(email, otp) {
   const mailOptions = {
-    from: `Car Auction <${process.env.EMAIL_USER}>`,
+    from: `Car Auction <${process.env.VALID_EMAIL}>`,
     to: email,
     subject: 'Your OTP Code for Car Auction App',
     html: `

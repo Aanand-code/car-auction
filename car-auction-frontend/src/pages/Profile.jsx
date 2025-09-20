@@ -41,7 +41,7 @@ const Profile = () => {
           headers: { 'Content-Type': 'application/json' },
         }
       );
-      console.log(response.data.bio);
+      // console.log(response.data.bio);
 
       updateUser({
         bio: response.data.bio,
@@ -51,7 +51,7 @@ const Profile = () => {
     }
   };
   return (
-    <section className="flex flex-col gap-7 p-4 w-full self-center">
+    <section className="flex flex-col gap-7 p-4 w-full">
       <p className="text-3xl text-center text-stone-700 flex items-center justify-center gap-1 self-center">
         <span className="text-nowrap">Profile</span>{' '}
         <span className="w-full">

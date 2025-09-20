@@ -64,8 +64,8 @@ const verifyUser = asyncHandler(async (req, res) => {
   //9 check for user creation
   //10 send cookie and response
   const { email, otp: userProvidedOTP } = req.body;
-  console.log(email);
-  console.log(userProvidedOTP);
+  // console.log(email);
+  // console.log(userProvidedOTP);
 
   if (!email || !userProvidedOTP) {
     throw new ApiError(400, 'Email and OTP are required');

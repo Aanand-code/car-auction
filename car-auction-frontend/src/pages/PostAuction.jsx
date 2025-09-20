@@ -4,8 +4,10 @@ import carLogoBlack from '../assets/high-speed.png';
 import { GiTrafficLightsRed } from 'react-icons/gi';
 import { formatToIST, toISODateTime } from '../utils/dateUtils';
 import axios from '../api/axios';
+import { replace, useNavigate } from 'react-router-dom';
 
 const PostAuction = () => {
+  const navigate = useNavigate();
   const errRef = useRef();
   const [errMsg, setErrMsg] = useState('');
 
@@ -73,7 +75,8 @@ const PostAuction = () => {
 
     try {
       const response = await axios.post('/auction/post-auction', formData);
-      console.log('Auction created:', response.data);
+      // console.log('Auction created:', response.data);
+      navigate('/', { replace: true });
     } catch (error) {
       console.log(error);
 

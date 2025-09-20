@@ -50,10 +50,12 @@ const BrowseAuctions = () => {
           />
         </span>
       </p>
-      {auctions.length === 0 ? (
-        <div>No auctions available right now.</div>
+      {!auctions || auctions?.length === 0 ? (
+        <div className="text-xl text-center">
+          No auctions available right now.
+        </div>
       ) : (
-        auctions.map((auction) => (
+        auctions?.map((auction) => (
           <div
             key={auction.auctionInfo._id}
             data-auction={auction.auctionInfo._id}

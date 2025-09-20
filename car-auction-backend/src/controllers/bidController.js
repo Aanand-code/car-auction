@@ -60,16 +60,31 @@ const newBid = asyncHandler(async (req, res) => {
     throw new ApiError(500, 'Something wrong while creating new bid');
   }
 
+  const bidsInfo = {
+    bidId: newBid._id,
+    bidderInfo: {
+      avatar: newBid.bidderId.avatar,
+      fullname: newBid.bidderId.fullname,
+    },
+    auctionId: newBid.auctionId,
+    totalAmount: newBid.totalAmount,
+    amount: newBid.amount,
+  };
+
+  console.log(bidsInfo);
+  // console.log(user);
+  // console.log(bidAmountNum);
+  // console.log(auction._id);
+  // console.log(newCurrentPrice);
+
+  io.to(auctionId).emit('new-bid', {
+    message: `Bid placed successfully! Raised by $${bidAmountNum}`,
+    bidsInfo,
+  });
+
   res.status(201).json({
     message: `Bid placed successfully! Raised by $${bidAmountNum}`,
-    newBid: newBid,
-    user: user,
-    raiseAmount: bidAmountNum,
-    auction: {
-      id: auction._id,
-      title: auction.title,
-      currentPrice: newCurrentPrice,
-    },
+    bidsInfo,
   });
 });
 
@@ -87,9 +102,28 @@ const getBidsOfAnAuction = asyncHandler(async (req, res) => {
     );
   }
 
+  const bidsInfo = bids.map((bid) => ({
+    bidId: bid._id,
+    bidderInfo: {
+      avatar: bid.bidderId.avatar,
+      fullname: bid.bidderId.fullname,
+    },
+    auctionId: bid.auctionId,
+    totalAmount: bid.totalAmount,
+    amount: bid.amount,
+  }));
+
+  // console.log(bidsInfo);
+
+  // console.log(bids.bidderId.avatar);
+  // console.log(bids.bidderId.fullname);
+  // console.log(bids.auctionId);
+  // console.log(bids.amount);
+  // console.log(bids.totalAmount);
+
   res.status(200).json({
     message: 'These are all the bids',
-    bids,
+    bidsInfo,
   });
 });
 

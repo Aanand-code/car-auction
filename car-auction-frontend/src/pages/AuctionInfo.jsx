@@ -15,18 +15,30 @@ const AuctionInfo = () => {
   const [bids, setBids] = useState([]);
   const [timer, setTimer] = useState('');
   const [endTimer, setEndTimer] = useState('');
+  // const [currentPrice, setCurrentPrice] = useState()
 
   const auctionID = location.state?.auctionID;
 
   useEffect(() => {
     socket.emit('join-auction', auctionID);
-    console.log('Component mounted');
 
     return () => {
       socket.emit('leave-auction', auctionID);
-      console.log('Component unmounted (cleanup)');
     };
   }, [auctionID]);
+
+  useEffect(() => {
+    socket.on('new-bid', (data) => {
+      console.log('New bid received:', data);
+
+      setAuction((prev) => ({
+        ...prev,
+        currentPrice: data.bidsInfo.totalAmount,
+      }));
+      setBids((prev) => [data.bidsInfo, ...prev]);
+    });
+    return () => socket.off('new-bid');
+  }, []);
 
   useEffect(() => {
     if (!auctionID) {
@@ -86,7 +98,7 @@ const AuctionInfo = () => {
         },
       });
       const now = new Date();
-      console.log(response.data.auctionInfo);
+      // console.log(response.data.auctionInfo);
       // console.log(response.data.auctioneerInfo);
       setAuction(response.data.auctionInfo);
       setAuctioneer(response.data.auctioneerInfo);
@@ -104,15 +116,29 @@ const AuctionInfo = () => {
         },
       });
 
-      console.log(response.data.bids);
+      console.log(response.data.bidsInfo);
 
-      setBids(response.data.bids);
+      setBids(response.data.bidsInfo);
     } catch (error) {
       console.error(error);
     }
   };
 
   // console.log(auction);
+
+  const handleRaiseBid = async (e) => {
+    const amount = Number(e.currentTarget.dataset.amount);
+
+    const response = await axios.post(
+      '/bid/new-bid',
+      { auctionId: auctionID, bidAmount: amount },
+      {
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+
+    // console.log(response);
+  };
 
   return (
     <section className="w-full flex flex-col">
@@ -180,17 +206,33 @@ const AuctionInfo = () => {
               Raise Bid
             </p>
             <div className="flex flex-row justify-around items-center gap-3 w-full">
-              <button className=" py-1 w-full text-center bg-green-400 rounded-lg">
+              <button
+                data-amount="25000"
+                onClick={handleRaiseBid}
+                className=" py-1 w-full text-center bg-green-400 rounded-lg"
+              >
                 25,000
               </button>
-              <button className=" py-1 w-full text-center bg-green-500 rounded-lg">
+              <button
+                data-amount="50000"
+                onClick={handleRaiseBid}
+                className=" py-1 w-full text-center bg-green-500 rounded-lg"
+              >
                 50,000
               </button>
-              <button className=" py-1 w-full text-center bg-green-600 rounded-lg">
+              <button
+                data-amount="75000"
+                onClick={handleRaiseBid}
+                className=" py-1 w-full text-center bg-green-600 rounded-lg"
+              >
                 75,000
               </button>
             </div>
-            <button className=" py-1 w-full text-center bg-green-700 rounded-lg">
+            <button
+              data-amount="100000"
+              onClick={handleRaiseBid}
+              className=" py-1 w-full text-center bg-green-700 rounded-lg"
+            >
               1,00,000
             </button>
           </div>
@@ -218,13 +260,26 @@ const AuctionInfo = () => {
       <p className="p-2 bg-blue-500 rounded-lg text-center text-lg font-bold">
         Bids
       </p>
-      <div className="border-t h-100 flex flex-col justify-center items-center border-t-red-950 w-full px-5">
-        {bids.length === 0 ? (
-          <div className="text-lg font-bold">
+      <div className="">
+        {bids?.length === 0 ? (
+          <div className="text-lg font-bold border-t h-100 flex flex-col justify-center items-center border-t-red-950 w-full px-5">
             There is no bid available right now.
           </div>
         ) : (
-          bids.map((bid) => <div key={bid._id}>{bid.amount}</div>)
+          bids.map((bid) => (
+            <div key={bid.bidId} className="flex flex-col p-3">
+              <div className="flex flex-row items-center gap-2 p-4 border-2">
+                <img
+                  src={bid.bidderInfo.avatar}
+                  alt="avatar"
+                  className="w-7 h-7 rounded-full"
+                />
+                <div>
+                  {bid.bidderInfo.fullname} placed a bid of {bid.amount}
+                </div>
+              </div>
+            </div>
+          ))
         )}
       </div>
     </section>
