@@ -72,10 +72,6 @@ const newBid = asyncHandler(async (req, res) => {
   };
 
   console.log(bidsInfo);
-  // console.log(user);
-  // console.log(bidAmountNum);
-  // console.log(auction._id);
-  // console.log(newCurrentPrice);
 
   io.to(auctionId).emit('new-bid', {
     message: `Bid placed successfully! Raised by $${bidAmountNum}`,

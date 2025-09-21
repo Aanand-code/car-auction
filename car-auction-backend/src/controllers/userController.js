@@ -15,8 +15,8 @@ const signup = asyncHandler(async (req, res) => {
 
   //1
   const { email, password } = req.body;
-  // console.log(email);
-  // console.log(password);
+  console.log(email);
+  console.log(password);
 
   //2
   if (!email || !password) {

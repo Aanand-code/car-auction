@@ -35,19 +35,19 @@ async function sendOTPEmail(email, otp) {
 
   try {
     await transporter.sendMail(mailOptions);
-    // console.log('OTP email sent to:', email);
+    console.log('OTP email sent to:', email);
   } catch (error) {
-    // console.error('Error sending email with port 587:', error.message);
+    console.error('Error sending email with port 587:', error.message);
 
     // Retry with port 465 if 587 fails
-    // console.log('Retrying with port 465...');
+    console.log('Retrying with port 465...');
     transporter = createTransporter(465, true);
 
     try {
       await transporter.sendMail(mailOptions);
-      // console.log('OTP email sent via port 587 to:', email);
+      console.log('OTP email sent via port 587 to:', email);
     } catch (retryError) {
-      // console.error('Retry also failed:', retryError.message);
+      console.error('Retry also failed:', retryError.message);
       throw new Error('Could not send OTP email after retry');
     }
   }
