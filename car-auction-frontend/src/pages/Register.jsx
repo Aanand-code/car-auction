@@ -92,8 +92,8 @@ const Register = () => {
   };
 
   return (
-    <section className="flex grow justify-center  self-center h-full w-full py-5">
-      <div className="w-full flex flex-col gap-15 items-center">
+    <section>
+      <div className="max-w-lg mx-auto p-6 shadow-lg rounded-xl  flex flex-col gap-15 items-center">
         <div className="flex flex-col  justify-center items-center gap-4">
           <p className="text-3xl text-center text-indigo-600 flex items-center justify-center gap-2">
             <span>#begin</span>{' '}
@@ -157,7 +157,7 @@ const Register = () => {
               required
               onFocus={() => setEmailFocus(true)}
               onBlur={() => setEmailFocus(false)}
-              className="bg-neutral-300/40 backdrop-blur-xl  p-1.5 rounded-lg"
+              className="w-full p-3 bg-gray-300 dark:bg-gray-900 shadow-2xl dark:shadow-none shadow-stone-500 d rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-600"
             />
             <div className="relative flex justify-start">
               <p
@@ -199,7 +199,7 @@ const Register = () => {
               required
               onFocus={() => setPasswordFocus(true)}
               onBlur={() => setPasswordFocus(false)}
-              className="bg-neutral-300/40 backdrop-blur-xl  p-1.5 rounded-lg"
+              className="w-full p-3 bg-gray-300 dark:bg-gray-900 shadow-2xl dark:shadow-none shadow-stone-500 d rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-600"
             />
             <div className="relative flex justify-start">
               <p
@@ -251,7 +251,7 @@ const Register = () => {
               required
               onFocus={() => setMatchFocus(true)}
               onBlur={() => setMatchFocus(false)}
-              className="bg-neutral-300/40 backdrop-blur-xl  p-1.5 rounded-lg"
+              className="w-full p-3 bg-gray-300 dark:bg-gray-900 shadow-2xl  dark:shadow-none shadow-stone-500 d rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-600"
             />
             <div className="relative flex justify-start">
               <p
