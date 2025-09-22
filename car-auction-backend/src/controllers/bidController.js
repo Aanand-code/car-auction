@@ -78,7 +78,7 @@ const newBid = asyncHandler(async (req, res) => {
     bidsInfo,
   });
 
-  res.status(201).json({
+  return res.status(201).json({
     message: `Bid placed successfully! Raised by $${bidAmountNum}`,
     bidsInfo,
   });
@@ -117,7 +117,7 @@ const getBidsOfAnAuction = asyncHandler(async (req, res) => {
   // console.log(bids.amount);
   // console.log(bids.totalAmount);
 
-  res.status(200).json({
+  return res.status(200).json({
     message: 'These are all the bids',
     bidsInfo,
   });

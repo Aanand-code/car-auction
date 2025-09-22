@@ -103,7 +103,7 @@ const postAuction = asyncHandler(async (req, res) => {
     newAuction,
   };
 
-  res.status(201).json({
+  return res.status(201).json({
     message: 'Auction created successfully',
     auctioneerUser,
     newAuction,
@@ -122,7 +122,7 @@ const getAuctions = asyncHandler(async (req, res) => {
   }
 
   if (allAuctions.length === 0) {
-    res.status(200).json({
+    return res.status(200).json({
       message: 'There is no auction available at this time',
     });
   }
@@ -144,7 +144,7 @@ const getAuctions = asyncHandler(async (req, res) => {
     );
   }
 
-  res.status(200).json({
+  return res.status(200).json({
     message: 'These are all auctions available',
     fullDetailsAuction,
   });
@@ -180,7 +180,7 @@ const auctionDetails = asyncHandler(async (req, res) => {
     );
   }
 
-  res.status(200).json({
+  return res.status(200).json({
     message: 'These are the auction details',
     auctioneerInfo: auctioneer,
     auctionInfo: auction,
@@ -216,7 +216,7 @@ const myAuctions = asyncHandler(async (req, res) => {
     });
   }
 
-  res.status(200).json({
+  return res.status(200).json({
     message: 'Your auctions',
     user,
     auctions,

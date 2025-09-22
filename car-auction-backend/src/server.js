@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const http = require('http');
-const path = require('path');
+// const path = require('path');
 const { Server } = require('socket.io');
 const { connectDB } = require('./utils/db.js');
 const cors = require('cors');
@@ -11,7 +11,7 @@ const auctionRoutes = require('./routes/auctionRoutes.js');
 const bidRoutes = require('./routes/bidRoutes.js');
 const { errorHandler } = require('./handler/errorHandler.js');
 const socketHandler = require('./handler/socketHandler.js');
-const frontendFile = require('../../car-auction-frontend/build/');
+// const frontendFile = require('../../car-auction-frontend/build/');
 const app = express();
 const server = http.createServer(app);
 
@@ -52,8 +52,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Serve React static files
-const frontendPath = path.resolve(__dirname, frontendFile);
-app.use(express.static(frontendPath));
+// const frontendPath = path.resolve(__dirname, frontendFile);
+// app.use(express.static(frontendPath));
 
 // All Routes
 // app.get('/hello', (req, res) => {
@@ -63,13 +63,13 @@ app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/auction', auctionRoutes);
 app.use('/api/v1/bid', bidRoutes);
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(frontendPath, 'index.html'), (err) => {
-    if (err) {
-      res.status(500).send(err);
-    }
-  });
-});
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(frontendPath, 'index.html'), (err) => {
+//     if (err) {
+//       res.status(500).send(err);
+//     }
+//   });
+// });
 
 // Error handle middleware
 app.use(errorHandler);

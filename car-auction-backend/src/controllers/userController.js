@@ -50,7 +50,7 @@ const signup = asyncHandler(async (req, res) => {
     '-password -refreshToken -fullname -avatar -bio -location'
   );
 
-  res.status(201).json({
+  return res.status(201).json({
     message:
       'Account created and One-Time Password (OTP) sent to your email to verify email',
     user: createdUser,
@@ -361,7 +361,7 @@ const updateBio = asyncHandler(async (req, res) => {
   user.bio = bio;
   await user.save();
 
-  res.status(201).json({
+  return res.status(201).json({
     message: 'New fields are created',
     bio: user.bio,
   });
