@@ -72,7 +72,7 @@ const Profile = () => {
           {' '}
           <Avatar />
         </div>
-        <div className="flex flex-row justify-center items-center gap-10">
+        <div className="flex flex-row justify-start items-center self-center gap-10">
           <label htmlFor="bio">Bio :</label>
           <input
             type="text"
@@ -82,7 +82,7 @@ const Profile = () => {
             onChange={handleBio}
           />
         </div>
-        <div className="flex flex-row justify-start items-center gap-10">
+        <div className="flex flex-row justify-start items-center self-center gap-10">
           <label htmlFor="name">Name :</label>
           <input
             type="text"
@@ -93,7 +93,7 @@ const Profile = () => {
           />
         </div>
 
-        <div className="flex flex-row justify-start items-center gap-10">
+        <div className="flex flex-row justify-start items-center self-center gap-10">
           <p>Email :</p>
           <p className="dark:text-gray-700 text-gray-500">{user?.email}</p>
         </div>

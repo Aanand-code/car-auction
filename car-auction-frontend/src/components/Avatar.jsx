@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
 import axios from '../api/axios';
 import useAuthStore from '../hooks/useAuthStore';
+import defaultAvatar from '../assets/305982.png';
+import { useState } from 'react';
 
 const Avatar = () => {
   const { user, updateUser } = useAuthStore();
@@ -28,35 +29,29 @@ const Avatar = () => {
   };
 
   return (
-    <div className="flex flex-col gap-4 items-center justify-center">
-      <div className="flex flex-col justify-center items-center">
-        <div className="flex items-center gap-3">
-          {/* Hidden native input */}
-          <input
-            type="file"
-            id="file"
-            className="hidden"
-            onChange={handleFileChange}
-            accept="image/*"
-          />
+    <div className="flex flex-col justify-center items-center">
+      <input
+        type="file"
+        id="file"
+        className="hidden"
+        onChange={handleFileChange}
+        accept="image/*"
+      />
 
-          {/* Custom button to trigger input */}
-          <label
-            htmlFor="file"
-            className="px-4 py-2 bg-white/20 text-white rounded-lg cursor-pointer hover:bg-white/50 backdrop-blur-2xl w-40"
-          >
-            {profilePic ? (
-              <img src={profilePic} alt="avatar" className="w-full" />
-            ) : (
-              <img
-                src="src/assets/305982.png"
-                alt="avatar"
-                className="w-full"
-              />
-            )}
-          </label>
-        </div>
-      </div>
+      <label
+        htmlFor="file"
+        className="px-4 py-2 bg-white/20 text-white rounded-lg cursor-pointer hover:bg-white/50 backdrop-blur-2xl w-50"
+      >
+        {profilePic ? (
+          <img src={profilePic} alt="avatar" className="w-full rounded-full" />
+        ) : (
+          <img
+            src={defaultAvatar}
+            alt="avatar"
+            className="w-full rounded-full"
+          />
+        )}
+      </label>
     </div>
   );
 };
