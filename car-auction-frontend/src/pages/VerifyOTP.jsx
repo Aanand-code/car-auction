@@ -1,11 +1,10 @@
-import React from 'react';
 import { useState, useRef } from 'react';
 import axios from '../api/axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import useAuthStore from '../hooks/useAuthStore';
-import { GiTrafficLightsRed } from 'react-icons/gi';
 import carLogoWhite from '../assets/Pi7_high-speed.png';
 import carLogoBlack from '../assets/high-speed.png';
+import useAuthStore from '../hooks/useAuthStore';
+import { GiTrafficLightsRed } from 'react-icons/gi';
 
 const VerifyOTP = () => {
   const navigate = useNavigate();
@@ -28,8 +27,8 @@ const VerifyOTP = () => {
         { headers: { 'Content-Type': 'application/json' } }
       );
       // console.log(response.data);
-      setAuth({ email: response.data.user }, response.data.accessToken);
-
+      setAuth(response.data.user, response.data.accessToken);
+      // console.log(response.data);
       navigate('/', { replace: true });
     } catch (error) {
       setErrMsg(`${error.response.data.message}`);
@@ -79,7 +78,7 @@ const VerifyOTP = () => {
             type="text"
             id="otp"
             onChange={(e) => setOTP(e.target.value)}
-            className="bg-neutral-300/40 backdrop-blur-xl  p-1.5 rounded-lg"
+            className="w-full p-3 bg-gray-300 dark:bg-gray-900 shadow-2xl dark:shadow-none shadow-stone-500 d rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-600"
           />
           <div className="w-full">
             <button
