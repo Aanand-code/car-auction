@@ -10,6 +10,9 @@ lerna-debug.log*
 # Node
 node_modules
 
+#Readme
+README.md
+
 # Frontend
 /car-auction-frontend/node_modules
 /car-auction-frontend/dist

@@ -95,7 +95,7 @@ VITE_SOCKET_URL=http://localhost:7777
 ## 🧠 Future Improvements
 - Add payment integration for bidding fees
 - Direct communication with winner and auctioneer
-- 
+
 ## 🤝 Contributing
 
 Contributions, issues, and feature requests are welcome!
